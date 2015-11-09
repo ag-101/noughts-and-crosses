@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Application</title>
+  <title>Games</title>
   <%= stylesheet_link_tag    'application' %>
-  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -13,6 +13,13 @@
   <% if alert %>
     <div class="alert alert-warning"><%= alert %></div>
   <% end %>  
+  
+  <% if user_signed_in? %>
+    <div class="btn-group pull-right">
+      <%= link_to current_user.username, '#', class: 'btn btn-default disabled' %>
+      <%= link_to "Log out", destroy_user_session_path, class: 'btn btn-danger' %>
+    </div>
+  <% end %>
   
   <div class="container-fluid">
     <%= yield %>

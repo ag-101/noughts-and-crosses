@@ -1,0 +1,27 @@
+<%= form_for(@game, html: { class: 'form-horizontal'}) do |f| %>
+  <% if @game.errors.any? %>
+    <div class="alert alert-danger">
+      <strong><%= pluralize(@game.errors.count, "error") %> prohibited this game from being saved:</strong>
+
+      <ul>
+      <% @game.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :player2, class: 'col-sm-3 control-label' %>
+    <div class="col-md-9">
+      <%= f.collection_select :player2_id, User.where.not(id: current_user.id), :id, :username, {}, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="btn-group col-sm-9 col-sm-offset-3">
+      <%= f.submit 'Create', class: 'btn btn-success' %>
+      <%= link_to 'Cancel', games_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
