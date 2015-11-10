@@ -1,8 +1,17 @@
 <% if game.check_for_winner %>
   <div class="alert alert-<%= game.check_for_winner == current_user ? 'success' : 'danger' %>">
     <%= game.check_for_winner == current_user ? 'You win!' : game.check_for_winner.username + ' has won' %>
+    <%= link_to 'Rematch', game_rematch_path(game), class: 'alert-link pull-right' %>
   </div>
-<% end %>    
+<% end %>   
+
+<% if game.status == 'Draw' %>
+  <div class="alert alert-warning">
+    Draw.  You're both losers.
+    <%= link_to 'Rematch', game_rematch_path(game), class: 'alert-link pull-right' %>
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col-sm-8">
       <%= render_game(game) %>

@@ -1,4 +1,8 @@
 module GamesHelper
+  def stats
+    content_tag :h4, "Played #{current_user.games.count} | Won #{current_user.winners.count}"   
+  end
+  
   def render_game(game)
     rows = 3
     cols = 3
@@ -23,7 +27,7 @@ module GamesHelper
             token = content_tag :span, '&#x25CF;'.html_safe, class: 'player2' if moves[count].player.username == game.player2.username
             token
           else
-            link_to '+', new_game_moves_path(game, count), class: 'btn btn-success alert-success btn-block' if current_user_move and !game.check_for_winner
+            link_to '&nbsp;'.html_safe, new_game_moves_path(game, count), class: 'btn btn-success alert-success btn-block' if current_user_move and !game.check_for_winner
           end
         end
         count += 1

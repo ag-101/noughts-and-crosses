@@ -4,7 +4,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = current_user.games
+    @games = current_user.games.select { |game| game.status == 'In progress' }
   end
 
   # GET /games/1
@@ -25,6 +25,20 @@ class GamesController < ApplicationController
   # GET /games/1/edit
   def edit
   end
+  
+  def rematch
+    @game = Game.find(params[:game_id])
+    other_players = @game.players.select{|player| player != current_user}
+    @new_game = Game.new
+    @new_game.player1 = current_user
+    @new_game.player2 = other_players.first
+    @new_game.status = 'In progress'
+    if @new_game.save
+      redirect_to game_path @new_game, notice: 'Game created.  Your turn.'
+    else
+      redirect_to new_game_path
+    end
+  end
 
   # POST /games
   # POST /games.json
@@ -32,7 +46,11 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     
     player2 = User.where(username: params[:game][:player2])
-    @game.player2_id = player2.first.id if player2.any?
+    if player2.any?
+    @game.player2_id = player2.first.id 
+    else
+      return redirect_to new_game_path, flash: { danger: "Can't find that player" }
+    end
     
     @game.player1_id = current_user.id
     @game.status = "In progress"    

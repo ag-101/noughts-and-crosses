@@ -35,6 +35,7 @@ class Game < ActiveRecord::Base
   
   def check_for_winner
     return winner if self.winner
+    return nil if self.status != 'In progress'
         
     winning_combinations = [[0, 1, 2], [0, 3, 6], [0, 4, 8], [1, 4, 7], [2, 4, 6], [2, 5, 8], [3, 4, 5], [6, 7, 8]]
     

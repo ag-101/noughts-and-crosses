@@ -2,14 +2,13 @@
 
 <h2>Noughts and Crosses</h2>
 
-<h4>
-  Played <%= current_user.games.count %> |
-  Won <%= current_user.winners.count %>
-</h4>
+<%= stats %>
 
 <% @games.each do |game| %>
   <%= render partial: 'game', locals: { game: game } %>
 <% end %>
 
-
+<% if @games.empty? %>
+<div class="alert alert-warning"><span class="glyphicon glyphicon-exclamation-sign"></span> No games currently in progress.  <%= link_to 'Create a game', new_game_path, class: 'alert-link' %></div>
+<% end %>
 

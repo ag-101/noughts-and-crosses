@@ -30,10 +30,10 @@ class Move < ActiveRecord::Base
   
   after_save :after_save
   def after_save    
-    if self.game.moves.count >= 9
+    if self.game.moves.count >= 9 and !self.game.check_for_winner
       self.game.status = 'Draw'
+      self.game.save
     end    
-    self.game.save  
   end
 
 end
