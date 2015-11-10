@@ -1,0 +1,21 @@
+<% if game.check_for_winner %>
+  <div class="alert alert-<%= game.check_for_winner == current_user ? 'success' : 'danger' %>">
+    <%= game.check_for_winner == current_user ? 'You win!' : game.check_for_winner.username + ' has won' %>
+  </div>
+<% end %>    
+<div class="row">
+  <div class="col-sm-8">
+      <%= render_game(game) %>
+  </div>
+  <div class="col-sm-4 players">
+    <% [[game.player1, '&times;'], [game.player2, '&#x25CF;']].each_with_index do |player, index| %>
+      <% current_user_move = game.next_player.username == player[0].username  %>
+      <% current_user_move = false if ['Finished', 'Draw'].include? game.status %>
+      <h4><span class="player<%= index + 1 %> label<%= ' current_user_move' if current_user_move %>"><%= current_user == player[0] ? 'You' : player[0].username %> <span class="player-icon"><%= player[1].html_safe %></span></span></h4>      
+    <% end %>
+
+    <p>Created <%= time_ago_in_words game.created_at %> ago</p>
+    <% if game.moves.any? %><p>Last move <%= time_ago_in_words game.moves.last.created_at %> ago</p><% end %>
+    <p><strong><%= game.status.gsub('In progress', (game.next_player == current_user ? 'Your turn' : "Waiting for #{game.next_player.username}")) %></strong></p>
+  </div>
+</div>

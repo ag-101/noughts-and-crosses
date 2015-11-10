@@ -5,23 +5,59 @@ table.noughts-and-crosses-board{
     td{
       width:100px;
       height:100px;
-      border:3px solid white;
+      border:3px solid #efefef;
       text-align:center;
-      &.space{
-        background:#ccc;
-        &:hover{
-          background:#efefef;
-        }
+      font-size:64px;
+      line-height:normal;
+      &.space .btn{
+        display:block;
+        padding: 28px;
+        font-size: 28px;
+        border:none;
       }
     }
   }
 }
 
+.player1{
+  color:#ff8900;
+}
+
+.player2{
+  color:#0099ff;
+}
+
 .game-container{
   .players{
-    text-align:right; 
+    span{
+      display:inline-block;
+    }
+    .label{
+      position:relative;
+      padding-right:28px;
+      line-height:28px;
+      display:block;
+      opacity:0.7;
+      font-weight:normal;
+      &.current_user_move{
+        font-weight:bold;
+        opacity:1;
+      }
+    }
+    text-align:center; 
     .player-icon{
       font-size:28px; 
+      position:absolute;
+      right:5px;
+      top:2px;
     }
   }
+}
+
+.flash_message{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:100;
 }

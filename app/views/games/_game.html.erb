@@ -1,5 +1,15 @@
-<div class="players pull-right">
-  <p><%= game.player1.username %> <span class="player-icon">&times;</span></p>
-  <p><%= game.player2.username %> <span class="player-icon">&#x25CF;</span></p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <a href="<%= game_path(game) %>">
+        <%= game.player1.username %> vs <%= game.player2.username %>
+      </a>
+    </h3>
+  </div>
+
+
+
+  <div class="panel-body game-container <%= 'game-container-loader' unless game.status == 'Finished' or game.status == 'Draw' %>" data-url="<%= game_path(game) %>">
+    <%= render partial: 'game_board', locals: {game: game} %>
+  </div>      
 </div>
-<%= render_game(game) %>

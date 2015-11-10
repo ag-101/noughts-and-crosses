@@ -1,2 +1,23 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+var games = {
+  init: function(){
+    $('.game-container-loader').each(function(){
+      var target = $(this);
+      setTimeout(function(){ games.load_game(target); }, 3000);
+    });
+  },
+  
+  load_game: function(target){
+    var url = target.data('url');
+    $.ajax({
+      url: url,
+      dataType: 'html'
+    }).success(function(data){ 
+      target.html(data);
+      setTimeout(function(){ games.load_game(target); }, 3000);      
+    });
+  }
+};
+
+$(document).ready(function(){
+  games.init();
+});

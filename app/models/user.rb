@@ -24,14 +24,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   
-  has_many :player1_games, :class_name => 'Game', :foreign_key => 'player1_id'
-  has_many :player2_games, :class_name => 'Game', :foreign_key => 'player2_id'
+  has_many :player1_games, class_name: 'Game', foreign_key: 'player1_id'
+  has_many :player2_games, class_name: 'Game', foreign_key: 'player2_id'
+  has_many :winners, class_name: 'Game', foreign_key: 'winner_id'
   
   validates :username, uniqueness: true
     
   def games
     # Player 1 initiates games, so worth keeping that information separate through the associations above
-    self.player1_games + self.player2_games
+    games = self.player1_games + self.player2_games
+    games.sort.reverse
   end
   
 end

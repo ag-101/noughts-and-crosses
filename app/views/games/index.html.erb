@@ -1,28 +1,14 @@
 <%= link_to 'New Game', new_game_path, class: 'btn btn-success pull-right' %>
 
-<h2>Your Games</h2>
+<h2>Noughts and Crosses</h2>
+
+<h4>
+  Played <%= current_user.games.count %> |
+  Won <%= current_user.winners.count %>
+</h4>
 
 <% @games.each do |game| %>
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        Noughts and Crosses with
-        <strong>
-          <%= game.player1.username if game.player1 != current_user %> 
-          <%= game.player2.username if game.player2 != current_user %>
-        </strong>
-      </h3>
-    </div>
-    
-    
-
-    <div class="panel-body game-container">
-      <%= render partial: 'game', locals: { game: game } %>
-      <%= link_to 'Show', game %>
-      <%= link_to 'Edit', edit_game_path(game) %>
-      <%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %>  
-    </div>      
-  </div>
+  <%= render partial: 'game', locals: { game: game } %>
 <% end %>
 
 

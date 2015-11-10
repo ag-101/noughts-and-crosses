@@ -10,6 +10,11 @@ class GamesController < ApplicationController
   # GET /games/1
   # GET /games/1.json
   def show
+    if request.xhr?
+      render partial: 'game_board', locals: { game: @game }
+    else
+      render :show
+    end    
   end
 
   # GET /games/new
@@ -25,9 +30,15 @@ class GamesController < ApplicationController
   # POST /games.json
   def create
     @game = Game.new(game_params)
+    
+    player2 = User.where(username: params[:game][:player2])
+    @game.player2_id = player2.first.id if player2.any?
+    
     @game.player1_id = current_user.id
-    @game.status = 'new'
-
+    @game.status = "In progress"    
+      
+    return redirect_to games_path, flash: { danger: "Don't be silly." } if @game.player2 == @game.player1
+    
     respond_to do |format|
       if @game.save
         format.html { redirect_to games_path, notice: 'Game was successfully created.' }

@@ -3,16 +3,22 @@
 <head>
   <title>Games</title>
   <%= stylesheet_link_tag    'application' %>
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <% if notice %>
-    <div class="alert alert-info"><%= notice %></div>
+
+  <% flash.each do |type, message| %>
+  <% type = 'warning' if type == 'alert'  %>
+  <% type = 'success' if type == 'notice' %>
+    <div class="flash_message alert alert-<%= type %>">
+      <% if message.is_a? Hash %>
+        <%= message.collect { |k, v| "<div class='#{k}'>#{k.humanize} #{v.join(', ')}</div>" }.join.html_safe %>
+      <% else %>  
+        <%= message %>
+      <% end %>
+      </div>
   <% end %>
-  <% if alert %>
-    <div class="alert alert-warning"><%= alert %></div>
-  <% end %>  
   
   <% if user_signed_in? %>
     <div class="btn-group pull-right">
